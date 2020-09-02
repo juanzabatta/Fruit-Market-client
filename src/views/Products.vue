@@ -1,34 +1,74 @@
 <template>
-  <main id="content">
-    <pm-sidebar />
-    <PmListProducts v-if="$route.name === 'ProductsCategory'" />
-    <PmHomeProducts v-else-if="$route.name === 'Products'" />
+  <main id="products">
+    <div class="content">
+      <PmNavbar></PmNavbar>
+      <PmSidebar
+        :windowWidth="windowWidth"
+        v-if="$route.name === 'ProductsCategory'"
+      ></PmSidebar>
+      <PmListProducts
+        :windowWidth="windowWidth"
+        v-if="$route.name === 'ProductsCategory'"
+      ></PmListProducts>
+      <PmHomeProducts
+        :windowWidth="windowWidth"
+        v-else-if="$route.name === 'Products'"
+      ></PmHomeProducts>
+    </div>
   </main>
 </template>
 
 <script>
-import PmSidebar from "@/components/layout/Sidebar.vue";
-import PmListProducts from "@/components/layout/ListProducts.vue";
-import PmHomeProducts from "@/components/layout/HomeProducts.vue";
+import PmSidebar from "@/components/layout/products/SidebarProducts.vue";
+import PmNavbar from "@/components/layout/products/NavbarProducts.vue";
+import PmListProducts from "@/components/layout/products/ListProducts.vue";
+import PmHomeProducts from "@/components/layout/products/HomeProducts.vue";
 
 export default {
   name: "Products",
   components: {
     PmSidebar,
     PmListProducts,
-    PmHomeProducts
+    PmHomeProducts,
+    PmNavbar
+  },
+  data() {
+    return {
+      windowWidth: window.innerWidth
+    };
+  },
+  mounted() {
+    window.addEventListener("resize", this.handleWindowResize);
+  },
+  methods: {
+    handleWindowResize() {
+      this.windowWidth = window.innerWidth;
+    }
+  },
+  watch: {
+    windowWidth: "handleWindowResize"
   }
 };
 </script>
 
-<style>
+<style lang="scss">
 /********* Products ********/
-#content {
+#products .content {
+  min-height: calc(100vh - 4rem - 4.2rem);
+  margin: auto;
+  background-color: transparent;
+  position: relative;
+  max-width: 1200px;
   display: grid;
   height: auto;
   grid-template-columns: 25% 75%;
-  background-image: url("../assets/patterns/pattern-white.png");
 }
 
 /********* Responsive Design ********/
+@media screen and (max-width: 650px) {
+  #products .content {
+    grid-template-columns: 100%;
+    grid-template-rows: auto auto;
+  }
+}
 </style>

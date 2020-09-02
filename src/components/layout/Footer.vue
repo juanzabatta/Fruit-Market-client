@@ -1,12 +1,11 @@
 <template>
   <footer id="footer">
-    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt, cum modi quos vel aliquam maxime incidunt repudiandae eos culpa omnis.</p>
+    <p>"Planta un árbol y estarás sembrando conciencia"</p>
 
     <p id="developed">
-      &copy; Desarrollado por Juan Zabatta &nbsp; &nbsp;-&nbsp; &nbsp; Contacto: &nbsp;
-      <a
-        :href="refMail"
-      >{{mail}}</a>
+      &copy; Desarrollado por
+      <span>Juan Zabatta - Contacto: &nbsp;</span>
+      <a :href="refMail">{{ mail }}</a>
     </p>
   </footer>
 </template>
@@ -30,40 +29,55 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 /********* Footer ********/
 #footer {
   width: 100%;
   height: 4.2rem;
   background-image: url("../../assets/patterns/pattern-dark.png");
-  padding: 0 10%;
+  padding: 0;
   overflow: hidden;
-}
-#footer p {
-  color: white;
-  text-align: center;
-  font-size: 0.8rem;
-  line-height: 1rem;
-  margin: 0px;
-  padding: 10px;
-}
-#footer p a {
-  text-decoration: none;
-  font-size: 0.8rem;
-  color: white;
-}
-#footer p a:hover {
-  color: #42b9c2;
-}
 
-/********* Developed ********/
-#footer #developed {
-  font-size: 0.6rem;
-  padding-bottom: 4px;
-}
-#footer #developed a {
-  font-size: 0.6rem;
+  p {
+    color: white;
+    text-align: center;
+    font-size: 13px;
+    line-height: 13px;
+    height: 2rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin: 0px;
+    padding: 10px;
+  }
+
+  /********* Developed ********/
+  #developed {
+    font-size: 12px;
+    padding-bottom: 4px;
+
+    a,
+    span {
+      text-decoration: none;
+      color: white;
+      font-size: 12px;
+    }
+
+    a:hover {
+      color: #42b9c2;
+    }
+  }
 }
 
 /********* Responsive Design ********/
+@media screen and (max-width: 450px) {
+  #footer #developed span {
+    display: none;
+  }
+}
+@media screen and (max-width: 350px) {
+  #footer p {
+    height: 30px;
+    padding: 4px;
+  }
+}
 </style>

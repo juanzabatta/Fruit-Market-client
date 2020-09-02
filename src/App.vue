@@ -1,9 +1,14 @@
 <template>
   <div id="app">
-    <PmAlert :infoAlert="iAlert" @hideAlert="showAlert = $event" v-show="showAlert" />
-    <PmHeader />
+    <PmAlert
+      :infoAlert="$store.state.iAlert"
+      @hideAlert="showAlert = $event"
+      v-if="$store.state.iAlert.show"
+    ></PmAlert>
+    <PmHeader :windowWidth="windowWidth"></PmHeader>
+    <PmLoading v-if="isLoading"></PmLoading>
     <router-view />
-    <PmFooter />
+    <PmFooter></PmFooter>
   </div>
 </template>
 
@@ -11,56 +16,101 @@
 import PmHeader from "@/components/layout/Header.vue";
 import PmFooter from "@/components/layout/Footer.vue";
 import PmAlert from "@/components/shared/Alert.vue";
+import PmLoading from "@/components/shared/Loader.vue";
 
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations } from "vuex";
 
 export default {
+  name: "App",
   components: {
     PmAlert,
     PmHeader,
-    PmFooter
+    PmFooter,
+    PmLoading
   },
   data() {
     return {
-      showAlert: false,
-      iAlert: {
-        success: true,
-        title: "Titulo",
-        message: "Mensaje"
-      }
+      isLoading: true,
+      windowWidth: window.innerWidth,
+      showAlert: true
     };
   },
   created() {
     this.getProducts();
   },
+  mounted() {
+    this.isLoading = true;
+    window.addEventListener("resize", this.handleWindowResize);
+    this.getToken();
+  },
   computed: {
-    ...mapState("products", ["productsState", "productsStateError"])
+    productsStateError() {
+      return this.$store.state.products.productsStateError;
+    },
+    productsState() {
+      return this.$store.state.products.productsState;
+    }
   },
   methods: {
-    ...mapActions("products", ["getProducts"])
+    ...mapActions("products", ["getProducts"]),
+    ...mapMutations(["getUser", "getAlert"]),
+    getToken() {
+      const token = localStorage.getItem("token");
+      this.getUser(token);
+    },
+    handleWindowResize() {
+      this.windowWidth = window.innerWidth;
+    },
+    getShowAlert() {
+      const iAlert = this.$store.state.iAlert;
+      iAlert.show = false;
+      this.getAlert(iAlert);
+      this.showAlert = true;
+    }
   },
   watch: {
     productsStateError() {
-      const $view = document.querySelector("#app");
-      this.iAlert = {
+      const iAlert = {
         success: false,
-        title: "Ups!!",
-        message: `Parece que ha ocurrido un error al intentar cargar los datos error`,
-        height: $view.clientHeight
+        title: "Error",
+        message: `Parece que ha ocurrido un error al intentar cargar los datos del servidor.`,
+        show: true
       };
-      this.showAlert = true;
+
+      this.getAlert(iAlert);
       console.log(this.productsStateError);
-    }
+    },
+    productsState() {
+      if (Object.keys(this.$store.state.products.productsState).length !== 0) {
+        setTimeout(() => {
+          this.isLoading = false;
+        }, 500);
+      }
+    },
+    showAlert: "getShowAlert",
+    windowWidth: "handleWindowResize"
   }
 };
 </script>
 
-<style>
+<style lang="scss">
+@font-face {
+  font-family: "WebSymbolsRegular";
+  src: url(./assets/fonts/websymbols-regular-webfont.eot);
+  src: url(./assets/fonts/websymbols-regular-webfont.eot?#iefix)
+      format("embedded-opentype"),
+    url(./assets/fonts/websymbols-regular-webfont.woff) format("woff"),
+    url(./assets/fonts/websymbols-regular-webfont.ttf) format("truetype"),
+    url(./assets/fonts/websymbols-regular-webfont.svg#WebSymbolsRegular)
+      format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
 /********* General ********/
 * {
   margin: 0px;
   padding: 0px;
-  font-family: "Quicksand";
+  font-family: Arial, Helvetica, sans-serif;
   color: #555555;
   box-sizing: border-box;
   font-size: 16px;
@@ -72,6 +122,7 @@ ul {
   list-style: none;
 }
 
+h1,
 h2,
 h3,
 h4 {
@@ -79,14 +130,12 @@ h4 {
 }
 
 h2 {
-  font-weight: 900;
   font-size: 1.5rem;
   line-height: 2.25rem;
   text-align: center;
 }
 
 h4 {
-  font-weight: 900;
   font-size: 1rem;
   line-height: 1.5rem;
   text-align: center;
@@ -96,38 +145,43 @@ p {
   font-size: 1rem;
   line-height: 1.35rem;
   margin: 0.75rem 1.5rem 0.75rem 1.5rem;
-}
 
-figure {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-}
-
-figure img {
-  display: block;
-  height: auto;
-  width: 95%;
-  margin: auto;
+  b {
+    font-size: 1.1rem;
+  }
 }
 
 input,
-button {
+button,
+select {
   outline: none;
+
+  &:focus {
+    border: none;
+    outline: none;
+  }
 }
 
-input:focus,
-button:focus {
-  border: none;
-  outline: none;
-}
 /********* Views General ********/
 main {
   height: auto;
   min-height: calc(100vh - 4rem - 4.2rem);
   margin: auto;
-  background-color: white;
+  margin-top: 4rem;
+  position: relative;
+  background: url("./assets/patterns/pattern-white.png"), repeat, white;
+  box-shadow: 0px 2px 4px gray inset, 0px -2px 3px gray inset;
 }
 
 /********* Responsive Design ********/
+@media screen and (max-width: 770px) {
+  * {
+    font-size: 14px;
+  }
+}
+@media screen and (max-width: 550px) {
+  * {
+    font-size: 12px;
+  }
+}
 </style>
