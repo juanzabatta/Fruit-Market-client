@@ -47,7 +47,7 @@
           <div class="headComment">
             <star-rating
               class="starRateComment"
-              v-model="product.details.ratings[0].score"
+              v-model="score"
               :increment="0.1"
               :max-rating="5"
               :read-only="true"
@@ -94,10 +94,13 @@ export default {
   },
   computed: {
     ratingsAverage() {
-      return this.product.details.ratingsAverage;
+      return Number(this.product.details.ratingsAverage);
     },
     productRating() {
       return this.product.details.ratings;
+    },
+    score() {
+      return Number(this.product.details.ratings[0].score);
     }
   },
   methods: {

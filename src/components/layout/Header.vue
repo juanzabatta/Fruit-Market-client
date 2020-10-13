@@ -23,6 +23,9 @@
             <router-link
               :to="{ name: 'About' }"
               :class="'button ' + routerActive[0]"
+              tag="button"
+              :disabled="true"
+              title="No disponible"
               >Nosotros</router-link
             >
           </li>
@@ -31,6 +34,9 @@
             <router-link
               :to="{ name: 'Services' }"
               :class="'button ' + routerActive[1]"
+              tag="button"
+              :disabled="true"
+              title="No disponible"
               >Servicios</router-link
             >
           </li>
@@ -47,6 +53,9 @@
             <router-link
               :to="{ name: 'Support' }"
               :class="'button ' + routerActive[3]"
+              tag="button"
+              :disabled="true"
+              title="No disponible"
               >Soporte</router-link
             >
           </li>
@@ -55,6 +64,9 @@
             <router-link
               :to="{ name: 'Contact' }"
               :class="'button ' + routerActive[4]"
+              tag="button"
+              :disabled="true"
+              title="No disponible"
               >Contacto</router-link
             >
           </li>
@@ -291,6 +303,7 @@ header {
             text-transform: uppercase;
             background-color: white;
             border-radius: 10px;
+            border: none;
 
             &:hover {
               background-image: linear-gradient(

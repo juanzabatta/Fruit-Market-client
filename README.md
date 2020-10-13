@@ -1,29 +1,9 @@
 # client
 
-## Project setup
-```
-npm install
-```
+Este es el código del lado del cliente de mi proyecto Portafolio Fruit-Market.
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+El código del lado del servidor se encuentra en https://github.com/juanzabatta/Fruit-Market-server
 
-### Compiles and minifies for production
-```
-npm run build
-```
+Dicho proyecto se encuentra funcionando en https://fruit-market-mevn.herokuapp.com/
 
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+PD: Aún se encuentra en desarrollo

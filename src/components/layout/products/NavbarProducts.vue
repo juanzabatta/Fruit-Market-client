@@ -42,7 +42,7 @@
       >Uvas</router-link
     >
 
-    <button class="search">L</button>
+    <button class="search" title="No disponible">L</button>
   </nav>
 </template>
 
