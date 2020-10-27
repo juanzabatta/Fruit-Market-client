@@ -46,30 +46,30 @@ const routes = [
         "../views/ProductDetail.vue"
       )
   },
-  {
-    path: "/about",
-    name: "About",
-    component: () =>
-      import(/* webpackChunkName: "about" */ "../views/About.vue")
-  },
-  {
-    path: "/services",
-    name: "Services",
-    component: () =>
-      import(/* webpackChunkName: "Services" */ "../views/Services.vue")
-  },
-  {
-    path: "/contact",
-    name: "Contact",
-    component: () =>
-      import(/* webpackChunkName: "Contact" */ "../views/Contact.vue")
-  },
-  {
-    path: "/support",
-    name: "Support",
-    component: () =>
-      import(/* webpackChunkName: "Support" */ "../views/Support.vue")
-  }
+  // {
+  //   path: "/about",
+  //   name: "About",
+  //   component: () =>
+  //     import(/* webpackChunkName: "about" */ "../views/About.vue")
+  // },
+  // {
+  //   path: "/services",
+  //   name: "Services",
+  //   component: () =>
+  //     import(/* webpackChunkName: "Services" */ "../views/Services.vue")
+  // },
+  // {
+  //   path: "/contact",
+  //   name: "Contact",
+  //   component: () =>
+  //     import(/* webpackChunkName: "Contact" */ "../views/Contact.vue")
+  // },
+  // {
+  //   path: "/support",
+  //   name: "Support",
+  //   component: () =>
+  //     import(/* webpackChunkName: "Support" */ "../views/Support.vue")
+  // }
 ];
 
 const router = new VueRouter({

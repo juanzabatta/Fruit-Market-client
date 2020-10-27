@@ -274,7 +274,7 @@
 
 <script>
 import { required, minLength, sameAs, email } from "vuelidate/lib/validators";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "Register",
@@ -312,7 +312,6 @@ export default {
       sending: false,
       body: {},
       bodyLogin: {},
-      iAlert: {}
     };
   },
   validations: {
@@ -327,7 +326,6 @@ export default {
   },
   methods: {
     ...mapActions(["saveStorage"]),
-    ...mapMutations(["getAlert"]),
 
     validationForm() {
       this.$v.$touch();
@@ -338,15 +336,9 @@ export default {
         this.phone.error.length !== 0 ||
         this.rut.required ||
         this.phone.required
-      ) {
-        this.iAlert = {
-          success: false,
-          title: "Error",
-          message: "Campos no válidos.",
-          show: true
-        };
-        this.getAlert(this.iAlert);
+      ) {        
         this.message = "Campos no válidos.";
+
       } else {
         this.sending = true;
         this.body = {
@@ -376,7 +368,7 @@ export default {
         .then(res => {
           this.sending = false;
 
-          if (res.data.status === "user Registred") {
+          if (res.data.message === "Usuario registrado.") {
             this.bodyLogin = {
               input: this.userNameInput,
               password: this.passwordInput
@@ -401,26 +393,10 @@ export default {
           this.localInput = "";
           this.message = "";
 
-          this.iAlert = {
-            success: true,
-            title: "Exito",
-            message: "Registro satisfactorio.",
-            show: true
-          };
-          this.getAlert(this.iAlert);
-
           this.$router.push({ name: "Products" });
         })
         .catch(error => {
-          this.iAlert = {
-            success: false,
-            title: "Error",
-            message: error.response.data.message,
-            show: true
-          };
-          this.getAlert(this.iAlert);
-
-          this.message = error.response.data.message;
+          this.message = error.response.data;
           this.sending = false;
         });
     },
@@ -432,15 +408,7 @@ export default {
           this.saveStorage(token);
         })
         .catch(error => {
-          this.iAlert = {
-            success: false,
-            title: "Error",
-            message: error.response.data.message,
-            show: true
-          };
-          this.getAlert(this.iAlert);
-
-          this.message = error.response.data.message;
+          this.message = error.response.data;
           this.sending = false;
         });
     },

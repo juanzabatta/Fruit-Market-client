@@ -54,7 +54,7 @@
 
 <script>
 import { required, minLength } from "vuelidate/lib/validators";
-import { mapActions, mapMutations } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
   name: "Login",
@@ -65,7 +65,6 @@ export default {
       sending: false,
       body: {},
       message: "",
-      iAlert: {}
     };
   },
   validations: {
@@ -74,20 +73,11 @@ export default {
   },
   methods: {
     ...mapActions(["saveStorage"]),
-    ...mapMutations(["getAlert"]),
 
     validationForm() {
       this.$v.$touch();
 
       if (this.$v.$invalid) {
-        this.iAlert = {
-          success: false,
-          title: "Error",
-          message: "Campos no válidos.",
-          show: true
-        };
-        this.getAlert(this.iAlert);
-
         this.message = "Campos no válidos.";
       } else {
         this.sending = true;
@@ -115,15 +105,7 @@ export default {
           this.$router.push({ name: "Products" });
         })
         .catch(error => {
-          this.iAlert = {
-            success: false,
-            title: "Error",
-            message: error.response.data.message,
-            show: true
-          };
-          this.getAlert(this.iAlert);
-
-          this.message = error.response.data.message;
+          this.message = error.response.data;
           this.sending = false;
         });
     }
